@@ -1,5 +1,7 @@
 package pl.akademiaspring.week2.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.userdetails.User;
@@ -13,7 +15,8 @@ import java.util.Map;
 @RestController
 public class Api {
 
-    Map<String, Integer> users;
+    private Logger logger = LoggerFactory.getLogger(Api.class);
+    private Map<String, Integer> users;
 
     public Api() {
         users = new HashMap();
@@ -25,6 +28,8 @@ public class Api {
     public void authenticationSuccess(AuthenticationSuccessEvent successEvent) {
         String user = ((User)successEvent.getAuthentication().getPrincipal()).getUsername();
         int count;
+
+        logger.info("User : " + user);
 
         switch(user.toLowerCase()) {
             case "user":
